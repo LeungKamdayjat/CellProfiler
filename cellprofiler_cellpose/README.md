@@ -125,18 +125,39 @@ pipeline.add_module(module)
 # If needed, modify your modules.
 # Example: pipeline.modules()[7] = pipeline.modules()[8]
 ```
-
 **4. Modify Pipeline Settings:**
 To further customize your pipeline, you can modify specific settings:
 
 ```python
 # Example settings for the ninth module:
 pipeline.modules()[8].setting(1).set_value("cells")
-...
+pipeline.modules()[8].setting(2).set_value("200")
+pipeline.modules()[8].setting(3).set_value("custom")
+pipeline.modules()[8].setting(4).set_value("CellposeCell")
+pipeline.modules()[8].setting(5).set_value("Yes")
+pipeline.modules()[8].setting(6).set_value("Yes")
+pipeline.modules()[8].setting(11).set_value("Default Input Folder sub-folder|<your directory>")
+pipeline.modules()[8].setting(12).set_value("CP_3rd-model")
+pipeline.modules()[8].setting(21).set_value("No")
+
+# Print out the settings to confirm:
 [print(setting.to_dict()) for setting in pipeline.modules()[8].settings()]
 ```
 
-Replace the ellipsis (`...`) with your specific settings adjustments.
+When you execute the above code, it will display the current settings for the specified module. For example, the output could look something like:
+
+```
+{'setting_number': 1, 'value': 'cells', 'type': 'text'}
+{'setting_number': 2, 'value': '200', 'type': 'integer'}
+{'setting_number': 3, 'value': 'custom', 'type': 'choice'}
+{'setting_number': 4, 'value': 'CellposeCell', 'type': 'text'}
+{'setting_number': 5, 'value': 'Yes', 'type': 'binary_choice'}
+{'setting_number': 6, 'value': 'Yes', 'type': 'binary_choice'}
+{'setting_number': 11, 'value': 'Default Input Folder sub-folder|<your directory>', 'type': 'path'}
+{'setting_number': 12, 'value': 'CP_3rd-model', 'type': 'text'}
+{'setting_number': 21, 'value': 'No', 'type': 'binary_choice'}
+... (and so on for any other settings)
+```
 
 **5. Execute the Pipeline:**
 Lastly, run the pipeline on your set of images:
