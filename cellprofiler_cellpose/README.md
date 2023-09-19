@@ -1,1 +1,3 @@
-here is the subfolder for cellprofiler_cellpose
+# Using CellPose AI Segmentation in CellProfiler - Python Batch Processing
+
+
