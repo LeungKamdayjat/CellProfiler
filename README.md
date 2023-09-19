@@ -152,4 +152,4 @@ You can learned your pipeline setting by opening **.cpppl** files. Scrolling dow
 
 ## Export data and data analysis using Python
 
-You can directly get the output_measures by python, followed by data analysis. Simply run 'output_measurements.get_measurement_columns()' to find your data, and 'output_measurements.get_measurement('<setting one>','<setting two>')' to get your data for further analysis. 
+You can directly get the output_measures by python, followed by data analysis. Simply run ```output_measurements.get_measurement_columns()``` to find your data, and ```output_measurements.get_measurement('<setting one>','<setting two>')``` to get your data for further analysis. 
