@@ -107,6 +107,49 @@ cellprofiler
 
 ---
 
-Please note that this tutorial assumes you are familiar with using command-line interface. If you encounter any errors during these steps, you may need to consult the relevant software's documentation or contact their support.
+P.S. Due to different Cython versions, there might be problems installing Centrosome. This issue can be fixed by using git clone to download centrosome and change the source file manually. [Problem with CellProfiler MacOS M1 source installation](https://forum.image.sc/t/problem-with-cellprofiler-macos-m1-source-installation/83954/2)
 
-- P.S. Due to different Cython versions, there might be problems installing Centrosome. This issue can be fixed by using git clone to download centrosome and change the source file manually. [Problem with CellProfiler MacOS M1 source installation](https://forum.image.sc/t/problem-with-cellprofiler-macos-m1-source-installation/83954/2)
+
+## Organizing Dataset
+
+#### Select Input Files
+
+Iput files should be located in <a>raw</a> folder in local path. Within raw folder, there should be the czi images. 
+
+Run print(file_list) can show you the files in the folder. 
+
+#### Split CZI files
+
+<code style="background:grey;color:white">.czi</code> files are divided into tif files and store them in the <code style="background:grey;color:white">image folder</code>. The following chuck requires **aicsimageio** module in your python interpretor. Run this under <code style="background:grey;color:white">ImageAnalysis environment</code>. 
+
+The loop are repeated based on number of positions (scenes), time stamps, and channels. Each loops would feed out a tif image with suffix at the end. If a image is at Scene3, Time2, channel2, then the suffix will be <code style="background:grey;color:white">S003.T002.C002</code>. 
+
+You can customize your naming to meet the cellprofiler pipeline requirement. 
+
+For example, 
+If you have various three channel images and two channel images, you can change your naming in the loop: For images with 2 channels, name your images into C1C2; for images with 3 channels, name your images into C0C1C2. Eventually your pipeline can only look at blue channel and green channel.
+
+## Initalizing CellProfiler in Python
+
+Open CellProfiler in headless mode, started java environment, import example data and images, set empty object set, set empty measurement, load pipeline
+
+## Changing Module Setting
+
+Before running the pipeline, make sure that desired module is imported to the cellprofiler directory so that it can be loaded.
+
+To properlly set up modules inside of the given cellprofiler pipeline, modules should be within the pipeline. 
+
+If you module is from outside source, then your module should be removed from the pipeline. 
+
+In a given pipeline, delete the external-source modules, but make a note about the number of the external-source modules so that you can re-insert in here. 
+
+To insert external-source modules, you need a module number, which is the location of the module in a pipeline, indicted by <code style="background:grey;color:white">module.module_num</code>. You can check if the module is been properly inserted by print our the modules using ```pipeline.modules()```.
+
+Cellpose module in the pipeline starts with default setting. You can check the default setting using
+```[print(setting.to_dict()) for setting in pipeline.modules()[8].settings()]```. The list number is 8 since python starts with 0. 
+
+You can learned your pipeline setting by opening **.cpppl** files. Scrolling down to the RunCellpose module and you can see your settings. Change the default setting to your custom settings. Two settings, <code style="background:grey;color:white">cp_module_dic</code> and <code style="background:grey;color:white">cp_mudole</code> have been set previous, here shown in variables instead of strings. 
+
+## Export data and data analysis using Python
+
+You can directly get the output_measures by python, followed by data analysis. Simply run 'output_measurements.get_measurement_columns()' to find your data, and 'output_measurements.get_measurement('<setting one>','<setting two>')' to get your data for further analysis. 
