@@ -5,16 +5,19 @@ class PathSelector:
     def __init__(self, master, var_name):
         self.var_name = var_name
         self.frame = tk.Frame(master)
-        self.frame.pack(pady=10)
-        
-        self.label = tk.Label(self.frame, text=f"{self.var_name}:")
-        self.label.pack(side=tk.LEFT, padx=(0, 10))
-        
-        self.entry = tk.Entry(self.frame, width=50)
-        self.entry.pack(side=tk.LEFT, padx=10)
-        
+        self.frame.pack(pady=3, fill=tk.X)
+
+
         self.btn = tk.Button(self.frame, text="Select Directory", command=self.select_directory)
-        self.btn.pack(side=tk.LEFT)
+        self.btn.grid(row=0, column=1, sticky=tk.E)
+        
+
+        self.entry = tk.Entry(self.frame, width=20)
+        self.entry.grid(row=0, column=0, sticky=tk.E, padx=10)
+        
+
+        self.label = tk.Label(self.frame, text=f"{self.var_name}")
+        self.label.grid(row=0, column=2, sticky=tk.W, padx=(0, 10))
         
     def select_directory(self):
         path = filedialog.askdirectory()
@@ -30,16 +33,16 @@ class FileSelector:
     def __init__(self, master, var_name):
         self.var_name = var_name
         self.frame = tk.Frame(master)
-        self.frame.pack(pady=10)
+        self.frame.pack(pady=3, fill=tk.X)
         
-        self.label = tk.Label(self.frame, text=f"{self.var_name}:")
-        self.label.pack(side=tk.LEFT, padx=(0, 10))
+        self.label = tk.Label(self.frame, text=f"{self.var_name}")
+        self.label.grid(row=0, column=2, sticky=tk.W, padx=(0, 10))
         
-        self.entry = tk.Entry(self.frame, width=50)
-        self.entry.pack(side=tk.LEFT, padx=10)
+        self.entry = tk.Entry(self.frame, width=20)
+        self.entry.grid(row=0, column=0, padx=10)
         
         self.btn = tk.Button(self.frame, text="Select File", command=self.select_file)
-        self.btn.pack(side=tk.LEFT)
+        self.btn.grid(row=0, column=1, sticky=tk.W)
         
     def select_file(self):
         file_name = filedialog.askopenfilename()
