@@ -52,6 +52,19 @@ class FileSelector:
     def get_file(self):
         return self.entry.get()
 
+class CheckbuttonSelector:
+    def __init__(self, master, var_name):
+        self.var_name = var_name
+        self.var = tk.IntVar()  # We'll use this to get the checkbutton's value
+        self.frame = tk.Frame(master)
+        self.frame.pack(pady=3, fill=tk.X)
+        
+        self.checkbtn = tk.Checkbutton(self.frame, text=var_name, variable=self.var)
+        self.checkbtn.grid(row=0, column=0, sticky=tk.W)
+
+    def is_checked(self):
+        return bool(self.var.get())
+
 def format_var_name(name):
     return name.replace(" ", "_").lower()
 
@@ -60,11 +73,16 @@ def run_gui():
     app.title("CellProfiler GUI")
 
     selectors = [
+        CheckbuttonSelector(app,"Split Image"),
         PathSelector(app, "Input Folder"),
-        PathSelector(app, "Cellpose Module Folder"),
+
+        CheckbuttonSelector(app,"CellProfiler"),
         PathSelector(app, "CellProfiler Pipeline Folder"),
+        FileSelector(app, "Pipeline File"),
+
+        CheckbuttonSelector(app,"CellPose"),
+        PathSelector(app, "Cellpose Module Folder"),
         FileSelector(app, "Module File"),
-        FileSelector(app, "Pipeline File")
     ]
 
     results_container = {'data': None}
@@ -79,7 +97,7 @@ def run_gui():
                 path = selector.get_path()
                 if not path:
                     messagebox.showwarning("Error", f"Please select a path for {selector.var_name}.")
-                    return
+                    # return
                 variables[formatted_var_name] = path
                 selected_data[formatted_var_name] = path
 
@@ -87,9 +105,12 @@ def run_gui():
                 file_name = selector.get_file()
                 if not file_name:
                     messagebox.showwarning("Error", f"Please select a file for {selector.var_name}.")
-                    return
+                    # return
                 variables[formatted_var_name] = file_name
                 selected_data[formatted_var_name] = file_name
+            
+            elif isinstance(selector, CheckbuttonSelector):
+                selected_data[formatted_var_name] = selector.is_checked()
 
         results_container['data'] = selected_data
         app.quit()  # This will break the mainloop without destroying widgets
