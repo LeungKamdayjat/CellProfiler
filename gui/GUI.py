@@ -49,61 +49,58 @@ class FileSelector:
     def get_file(self):
         return self.entry.get()
 
-
-app = tk.Tk()
-app.title("CellProfiler GUI")
-
-variables = {}
-
-selectors = [
-    PathSelector(app, "Input Folder"),
-    PathSelector(app, "Cellpose Module Folder"),
-    PathSelector(app, "CellProfiler Pipeline Folder"),
-    FileSelector(app, "Module File"),
-    FileSelector(app, "Pipeline File")
-    # Add more as needed
-]
-
 def format_var_name(name):
     return name.replace(" ", "_").lower()
 
-def store_variable():
-    for selector in selectors:
-        formatted_var_name = format_var_name(selector.var_name)
+def run_gui():
+    app = tk.Tk()
+    app.title("CellProfiler GUI")
 
-        if isinstance(selector, PathSelector):
-            path = selector.get_path()
-            if not path:
-                messagebox.showwarning("Error", f"Please select a path for {selector.var_name}.")
-                return
-            variables[formatted_var_name] = path
-            selected_data[formatted_var_name] = path  # Store in selected_data dictionary
+    selectors = [
+        PathSelector(app, "Input Folder"),
+        PathSelector(app, "Cellpose Module Folder"),
+        PathSelector(app, "CellProfiler Pipeline Folder"),
+        FileSelector(app, "Module File"),
+        FileSelector(app, "Pipeline File")
+    ]
 
-        elif isinstance(selector, FileSelector):
-            file_name = selector.get_file()
-            if not file_name:
-                messagebox.showwarning("Error", f"Please select a file for {selector.var_name}.")
-                return
-            variables[formatted_var_name] = file_name
-            selected_data[formatted_var_name] = file_name  # Store in selected_data dictionary
+    results_container = {'data': None}
 
-    app.destroy()
+    def store_variable():
+        variables = {}
+        selected_data = {}
+        for selector in selectors:
+            formatted_var_name = format_var_name(selector.var_name)
+            
+            if isinstance(selector, PathSelector):
+                path = selector.get_path()
+                if not path:
+                    messagebox.showwarning("Error", f"Please select a path for {selector.var_name}.")
+                    return
+                variables[formatted_var_name] = path
+                selected_data[formatted_var_name] = path
 
+            elif isinstance(selector, FileSelector):
+                file_name = selector.get_file()
+                if not file_name:
+                    messagebox.showwarning("Error", f"Please select a file for {selector.var_name}.")
+                    return
+                variables[formatted_var_name] = file_name
+                selected_data[formatted_var_name] = file_name
 
+        results_container['data'] = selected_data
+        app.quit()  # This will break the mainloop without destroying widgets
 
-store_btn = tk.Button(app, text="OK", command=store_variable)
-store_btn.pack(pady=20)
+    store_btn = tk.Button(app, text="OK", command=store_variable)
+    store_btn.pack(pady=20)
+    app.mainloop()
 
-# Define a dictionary to store selected paths and filenames
-selected_data = {}
-app.mainloop()
+    data = results_container['data']
+    app.destroy()  # Destroy app after extracting data
+    return data
 
-# This part of the code should be placed after app.mainloop()
-
-# Print out the selected data
-print("Selected Data:")
-for key, value in selected_data.items():
-    print(f"{key}: {value}")
-    globals()[key] = value
-# print(input_folder,cellpose_module_folder,cellprofiler_pipeline_folder,module_file,pipeline_file)
-
+if __name__ == "__main__":
+    data = run_gui()
+    print("Selected Data:")
+    for key, value in data.items():
+        print(f"{key}: {value}")
