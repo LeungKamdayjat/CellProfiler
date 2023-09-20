@@ -59,7 +59,8 @@ selectors = [
     PathSelector(app, "Input Folder"),
     PathSelector(app, "Cellpose Module Folder"),
     PathSelector(app, "CellProfiler Pipeline Folder"),
-    FileSelector(app, "Module File")
+    FileSelector(app, "Module File"),
+    FileSelector(app, "Pipeline File")
     # Add more as needed
 ]
 
@@ -103,4 +104,6 @@ app.mainloop()
 print("Selected Data:")
 for key, value in selected_data.items():
     print(f"{key}: {value}")
+    globals()[key] = value
+# print(input_folder,cellpose_module_folder,cellprofiler_pipeline_folder,module_file,pipeline_file)
 
