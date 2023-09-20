@@ -1,4 +1,9 @@
 ## GUI for ImageBatchProcessing 
 
-run _init_.py. 
-Only use the input folder to split image. Other blank can be random things.
+run _init_.py.
+
+Click Split Image if you want to split image. 
+
+Clike CellProfiler if you need to run analysis. 
+
+including output folder.
