@@ -7,4 +7,7 @@ data = GUI.run_gui()
 for key, value in data.items():
     globals()[key] = value
 
-spimg.split_imge(input_folder)
+if split_image == True:
+    spimg.split_imge(input_folder)
+
+# if cellprofiler == True:

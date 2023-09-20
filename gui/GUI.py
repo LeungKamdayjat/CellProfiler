@@ -83,6 +83,8 @@ def run_gui():
         CheckbuttonSelector(app,"CellPose"),
         PathSelector(app, "Cellpose Module Folder"),
         FileSelector(app, "Module File"),
+
+        PathSelector(app,"Output Directory")
     ]
 
     results_container = {'data': None}
@@ -120,7 +122,7 @@ def run_gui():
     app.mainloop()
 
     data = results_container['data']
-    app.destroy()  # Destroy app after extracting data
+    # app.destroy()  # Destroy app after extracting data
     return data
 
 if __name__ == "__main__":
