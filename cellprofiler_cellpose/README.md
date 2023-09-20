@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Following setup is been used to generate Batch Processing by combining CellPose and CellProfiler. Both images need to be installed from source. 
+Following setup is been used to generate Batch Processing by combining CellPose and CellProfiler. Both packages need to be installed from source. 
 
 ## Prerequisites
 
