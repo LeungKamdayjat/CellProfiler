@@ -99,10 +99,17 @@ pip install -e .
 
 **Step 10: Start CellProfiler**
 
+
+```
+pip install cellprofiler
+
+```
 You should now be able to start CellProfiler from the command line:
 
 ```
+
 cellprofiler
+
 ```
 
 ---
